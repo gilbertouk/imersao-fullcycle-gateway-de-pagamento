@@ -1,56 +1,40 @@
 # Gateway de Pagamento - Imersão Full Cycle
 
-Bem-vindo ao projeto **Gateway de Pagamento**, desenvolvido durante a imersão do canal Full Cycle. Este projeto tem como objetivo construir um sistema de gateway de pagamento robusto e escalável, utilizando boas práticas de desenvolvimento e tecnologias modernas.
+## Sobre o Projeto
 
-## Objetivo
+Este projeto foi desenvolvido durante a [Imersão Full Stack & Full Cycle](https://imersao.fullcycle.com.br/evento/), onde construímos um Gateway de Pagamento completo utilizando arquitetura de microsserviços.
 
-O objetivo principal deste projeto é proporcionar uma experiência prática e imersiva no desenvolvimento de um gateway de pagamento, abordando conceitos como:
+O objetivo é demonstrar a construção de um sistema distribuído moderno, com separação de responsabilidades, comunicação assíncrona e análise de fraudes em tempo real.
 
-- Arquitetura de microsserviços.
-- Comunicação entre serviços.
-- Processamento de pagamentos.
-- Integração com APIs externas.
-- Testes automatizados e boas práticas.
+## Arquitetura
 
-## Tecnologias Utilizadas
+[Visualize a arquitetura completa aqui](https://link.excalidraw.com/readonly/Nrz6WjyTrn7IY8ZkrZHy)
 
-Durante o desenvolvimento, utilizaremos as seguintes tecnologias e ferramentas:
+### Componentes do Sistema
 
-- **Linguagem de Programação**: [Definir linguagem principal, ex.: Go, Node.js, etc.]
-- **Banco de Dados**: [Definir banco de dados, ex.: PostgreSQL, MongoDB, etc.]
-- **Mensageria**: [Ex.: Apache Kafka, RabbitMQ, etc.]
-- **Containerização**: Docker
-- **Orquestração**: Kubernetes
-- **Outras Ferramentas**: [Definir outras ferramentas relevantes]
+- **Frontend (Next.js)**
+  - Interface do usuário para gerenciamento de contas e processamento de pagamentos
+  - Desenvolvido com Next.js para garantir performance e boa experiência do usuário
 
-## Estrutura do Projeto
+- **Gateway (Go)**
+  - Sistema principal de processamento de pagamentos
+  - Gerencia contas, transações e coordena o fluxo de pagamentos
+  - Publica eventos de transação no Kafka para análise de fraude
 
-O projeto será dividido em múltiplos serviços, cada um responsável por uma funcionalidade específica, como:
+- **Apache Kafka**
+  - Responsável pela comunicação assíncrona entre API Gateway e Antifraude
+  - Garante confiabilidade na troca de mensagens entre os serviços
+  - Tópicos específicos para transações e resultados de análise
 
-- Serviço de Autenticação
-- Serviço de Processamento de Pagamentos
-- Serviço de Notificações
-- Integração com provedores de pagamento
+- **Antifraude (Nest.js)**
+  - Consome eventos de transação do Kafka
+  - Realiza análise em tempo real para identificar possíveis fraudes
+  - Publica resultados da análise de volta no Kafka
 
-## Como Executar
+## Fluxo de Comunicação
 
-1. Clone este repositório:
-  ```bash
-  git clone https://github.com/seu-usuario/imersao-fullcycle-gateway-de-pagamento.git
-  ```
-2. Acesse o diretório do projeto:
-  ```bash
-  cd imersao-fullcycle-gateway-de-pagamento
-  ```
-3. Siga as instruções de configuração e execução de cada serviço no respectivo diretório.
-
-## Contribuição
-
-Contribuições são bem-vindas! Sinta-se à vontade para abrir issues e enviar pull requests.
-
-## Licença
-
-Este projeto está licenciado sob a [MIT License](LICENSE).
-
----
-**Acompanhe a imersão no canal Full Cycle e participe dessa jornada de aprendizado!**
+1. Frontend realiza requisições para a API Gateway via REST
+2. Gateway processa as requisições e publica eventos de transação no Kafka
+3. Serviço Antifraude consome os eventos e realiza análise em tempo real
+4. Resultados das análises são publicados de volta no Kafka
+5. Gateway consome os resultados e finaliza o processamento da transação 
