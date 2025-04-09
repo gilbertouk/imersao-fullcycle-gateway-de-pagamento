@@ -11,4 +11,7 @@ var (
 	ErrInvoiceNotFound = errors.New("invoice not found")
 	// ErrUnauthorizedAccess is returned when a user is not authorized to perform an action.
 	ErrUnauthorizedAccess = errors.New("unauthorized access")
+
+	ErrInvalidAmount = errors.New("invalid amount")
+	ErrInvalidStatus = errors.New("invalid status")
 )
