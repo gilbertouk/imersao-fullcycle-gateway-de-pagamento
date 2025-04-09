@@ -43,11 +43,16 @@ func main() {
 	}
 	defer db.Close()
 
+	// Inicializa camadas da aplicação (repository -> service -> server)
 	accountRepository := repository.NewAccountRepository(db)
 	accountService := service.NewAccountService(accountRepository)
 
+	invoiceRepository := repository.NewInvoiceRepository(db)
+	invoiceService := service.NewInvoiceService(invoiceRepository, *accountService)
+
+	// configura e inicializa o servidor HTTP
 	port := getEnv("HTTP_PORT", "8080")
-	srv := server.NewServer(accountService, port)
+	srv := server.NewServer(accountService, invoiceService, port)
 	srv.ConfigureRoutes()
 
 	if err := srv.Start(); err != nil {
