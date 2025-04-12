@@ -1,29 +1,32 @@
-import { cn } from "@/lib/utils"
+import { Badge } from "@/components/ui/badge";
 
-type StatusType = "Aprovado" | "Pendente" | "Rejeitado"
+export type InvoiceStatus = "approved" | "pending" | "rejected";
 
 interface StatusBadgeProps {
-  status: StatusType
-  className?: string
+  status: InvoiceStatus;
 }
 
-export function StatusBadge({ status, className }: StatusBadgeProps) {
-  const getStatusStyles = () => {
-    switch (status) {
-      case "Aprovado":
-        return "bg-green-100 text-green-800 border-green-200"
-      case "Pendente":
-        return "bg-yellow-100 text-yellow-800 border-yellow-200"
-      case "Rejeitado":
-        return "bg-red-100 text-red-800 border-red-200"
-      default:
-        return "bg-gray-100 text-gray-800 border-gray-200"
-    }
-  }
+const statusConfig = {
+  approved: {
+    text: "Aprovado",
+    className: "bg-green-500/20 text-green-500 hover:bg-green-500/20",
+  },
+  pending: {
+    text: "Pendente",
+    className: "bg-yellow-500/20 text-yellow-500 hover:bg-yellow-500/20",
+  },
+  rejected: {
+    text: "Rejeitado",
+    className: "bg-red-500/20 text-red-500 hover:bg-red-500/20",
+  },
+};
+
+export function StatusBadge({ status }: StatusBadgeProps) {
+  const config = statusConfig[status];
 
   return (
-    <span className={cn("px-3 py-1 rounded-full text-xs font-medium border", getStatusStyles(), className)}>
-      {status}
-    </span>
-  )
+    <Badge variant="outline" className={config.className}>
+      {config.text}
+    </Badge>
+  );
 }
