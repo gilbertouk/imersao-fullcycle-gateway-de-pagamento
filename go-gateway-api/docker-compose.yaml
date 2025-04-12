@@ -38,8 +38,8 @@ services:
 
 volumes:
   postgres_data:
-    driver: local
-    driver_opts:
-      type: none
-      device: /home/gilberto/software-development/fullcycle3/imersao-fullcycle-gateway-de-pagamento/db_data
-      o: bind
+    # driver: local
+    # driver_opts:
+    #   type: none
+    #   device: ../db_data
+    #   o: bind
