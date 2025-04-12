@@ -2,6 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
+import { revalidateTag } from "next/cache";
 
 export async function createInvoiceAction(formData: FormData) {
   const cookiesStore = await cookies();
@@ -15,16 +16,6 @@ export async function createInvoiceAction(formData: FormData) {
     .split("/");
   const cvv = formData.get("cvv");
   const cardHolderName = formData.get("cardHolderName");
-
-  console.log({
-    amount,
-    description,
-    cardNumber,
-    expiryMonth,
-    expiryYear,
-    cvv,
-    cardHolderName,
-  });
 
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/invoice`, {
     method: "POST",
@@ -48,6 +39,11 @@ export async function createInvoiceAction(formData: FormData) {
     const error = await response.json();
     throw new Error(error.message);
   }
+
+  const data = await response.json();
+
+  revalidateTag(`accounts/${apiKey}/invoices`);
+  revalidateTag(`accounts/${apiKey}/invoices/${data.id}`);
 
   redirect("/invoices");
 }
