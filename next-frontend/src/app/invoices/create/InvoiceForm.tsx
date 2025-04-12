@@ -153,11 +153,11 @@ export default function InvoiceForm() {
       </div> */}
 
       <div className="flex justify-end gap-3 mt-6">
-        <Button variant="outline" className="border-gray-700 text-white">
+        <Button variant="outline" className="border-gray-700 text-black">
           Cancelar
         </Button>
         <Button
-          className="bg-indigo-600 hover:bg-indigo-700 text-white flex items-center gap-1"
+          className="bg-indigo-600 hover:bg-indigo-700 text-white flex items-center gap-1 hover:cursor-pointer"
           type="submit"
         >
           <Lock size={16} />
