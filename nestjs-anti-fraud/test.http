@@ -1,0 +1,6 @@
+### Test HTTP request
+### API base URL
+@baseUrl = http://localhost:3000
+
+
+GET {{baseUrl}}
